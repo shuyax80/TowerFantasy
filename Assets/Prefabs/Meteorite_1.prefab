@@ -104,3 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8180be7d1d7b4ccd8de8c7c755b5642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  health: 10
+  scoreValue: 10
+  explosion: {fileID: 8625666049752253571, guid: 5b2a17557ea3b42eda04d5f0be874247, type: 3}

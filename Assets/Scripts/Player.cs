@@ -1,6 +1,5 @@
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class Player : MonoBehaviour
 {
     [SerializeField] private ParticleSystem muzzleFlash;
@@ -8,17 +7,40 @@ public class Player : MonoBehaviour
     [SerializeField] private long damage;   
     [SerializeField] private long maxHealth;
     [SerializeField] private long currentHealth;
+    [SerializeField] private float fireRate;
     
+    private float _nextFireTime;
+    private GameObject _target;
     void Update()
     {
-        
+        _target = EnemySpawner.Instance.GetClosestEnemy(this.transform.position);
+        if (!_target.IsUnityNull())
+        {
+            RotateToTarget(_target.transform.position);
+            var distance = Vector3.Distance(transform.position, _target.transform.position);
+            if (distance <= range && Time.time >= _nextFireTime)
+            {
+                Shoot();
+                _nextFireTime = Time.time + fireRate;
+            }
+        }
     }
 
     private void Shoot()
     {
         muzzleFlash.Play();
+        if (_target.TryGetComponent<Enemy>(out var script))
+        {
+            script.GetDamage(damage);
+        }
     }
-    
+    private void RotateToTarget(Vector3 targetPos)
+    {
+        Vector3 direction = targetPos - transform.position;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle -90f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+    }
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

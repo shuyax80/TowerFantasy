@@ -1,7 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    [SerializeField] private long health;
+    [SerializeField] private long scoreValue;
+    [SerializeField] private GameObject explosion;
     private float _speed;
     private float _stopDistance;
     private float _rotationSpeed;
@@ -30,5 +35,15 @@ public class Enemy : MonoBehaviour
 
        
         transform.Rotate(0, 0, _rotationSpeed * Time.deltaTime);
+    }
+
+    public void GetDamage(long amount)
+    {
+        health -= amount;
+        if(health <= 0)
+            Destroy(this.gameObject);
+        if(!explosion.IsUnityNull())
+            Instantiate(explosion, transform.position, Quaternion.identity);
+        UiManager.Instance.AddScore(scoreValue);
     }
 }
