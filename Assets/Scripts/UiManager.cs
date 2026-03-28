@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     public static UiManager Instance { get; private set; }
 
     [SerializeField] private TextMeshProUGUI levelText;
-    private long _currentScore = 0;
+    [SerializeField] private Image xpBar;
     private long _level = 1;
     private void Awake()
     {
@@ -21,9 +22,8 @@ public class UiManager : MonoBehaviour
         levelText.text = $"Level: {_level}";
     }
 
-    public void AddScore(long amount)
+    public void UpdateBar(long playerXp, long xpForLevel)
     {
-        _currentScore += amount;
-        
+        xpBar.fillAmount = (float) playerXp / xpForLevel;
     }
 }

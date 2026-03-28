@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 public class Player : MonoBehaviour
@@ -10,12 +11,15 @@ public class Player : MonoBehaviour
     [SerializeField] private long currentHealth;
     [SerializeField] private float fireRate;
     
+    [Header("Range circle setting")]
+    [SerializeField] private int segments = 50; 
+    [SerializeField]private LineRenderer lineRenderer;
     private int _level = 1;
     
     public static Player Instance { get; private set; }
     private float _nextFireTime;
     private GameObject _target;
-    
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,8 +28,15 @@ public class Player : MonoBehaviour
             return;
         } 
         Instance = this;
+       
+        lineRenderer.useWorldSpace = false; 
     }
-    
+
+    private void Start()
+    {
+        DrawRangeCircle();
+    }
+
     void Update()
     {
         _target = EnemySpawner.Instance.GetClosestEnemy(this.transform.position);
@@ -39,6 +50,7 @@ public class Player : MonoBehaviour
                 _nextFireTime = Time.time + fireRate;
             }
         }
+        DrawRangeCircle();
     }
 
     private void Shoot()
@@ -67,4 +79,23 @@ public class Player : MonoBehaviour
     {
         _level++;
     } 
+    public void DrawRangeCircle()
+    {
+        var realRange = range;
+        var parentScale = transform.lossyScale.x;
+        var localRadius = realRange / parentScale;
+
+        lineRenderer.positionCount = segments + 1;
+        lineRenderer.useWorldSpace = false; 
+
+        var angle = 0f;
+        for (var i = 0; i < (segments + 1); i++)
+        {
+            var x = Mathf.Sin(Mathf.Deg2Rad * angle) * localRadius;
+            var y = Mathf.Cos(Mathf.Deg2Rad * angle) * localRadius;
+
+            lineRenderer.SetPosition(i, new Vector3(x, y, 0));
+            angle += (360f / segments);
+        }
+    }
 }

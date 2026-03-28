@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [Header("XpCurveParams")]
-    [SerializeField] private int _baseXP = 100; 
-    [SerializeField] private float _multiplier = 1.2f; 
-    [SerializeField] private float _exponent = 2.2f;   
+    [SerializeField] private int baseXp = 100; 
+    [SerializeField] private float multiplier = 1.2f; 
+    [SerializeField] private float exponent = 2.2f;   
     
     private long _playerXp = 0;
-    
+    private int _xpForLevel = 0;
+    private int _playerLevel = 1;
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -18,14 +20,31 @@ public class GameManager : MonoBehaviour
             return;
         } 
         Instance = this;
-    }
-    private int GetXPForLevel(int level)
-    {
-        return Mathf.RoundToInt(_baseXP + (_multiplier * Mathf.Pow(level, _exponent)));
+        _xpForLevel = GetXpForLevel(_playerLevel);
+          
     }
 
-    public void AddXP(long amount)
+    private void Start()
+    {
+        UiManager.Instance.UpdateBar(_playerXp, _xpForLevel); 
+    }
+
+    private int GetXpForLevel(int level)
+    {
+        return Mathf.RoundToInt(baseXp + (multiplier * Mathf.Pow(level, exponent)));
+    }
+
+    public void AddXp(long amount)
     {
         _playerXp += amount;
+        if (_playerXp >= _xpForLevel)
+        {
+            _playerXp = 0;
+            _playerLevel++;
+            _xpForLevel = GetXpForLevel(_playerLevel);
+            Player.Instance.IncreaseLevel();
+            UiManager.Instance.SetLevel(_playerLevel);
+        }
+        UiManager.Instance.UpdateBar(_playerXp, _xpForLevel); 
     }
 }
