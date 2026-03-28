@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle -90f);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
     }
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -44,14 +45,14 @@ public class EnemySpawner : MonoBehaviour
     
     public GameObject GetClosestEnemy(Vector3 origin)
     {
-        _enemies.RemoveAll(item => item == null);
+        _enemies.RemoveAll(item => item.IsUnityNull());
 
         if (_enemies.Count == 0) return null;
 
         GameObject closest = null;
         var minDistance = Mathf.Infinity;
 
-        foreach (GameObject enemy in _enemies)
+        foreach (var enemy in _enemies)
         {
             var distance = Vector3.Distance(origin, enemy.transform.position);
             
