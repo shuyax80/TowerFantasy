@@ -44,6 +44,6 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         if(!explosion.IsUnityNull())
             Instantiate(explosion, transform.position, Quaternion.identity);
-        UiManager.Instance.AddScore(scoreValue);
+        GameManager.Instance.AddXP(scoreValue);
     }
 }

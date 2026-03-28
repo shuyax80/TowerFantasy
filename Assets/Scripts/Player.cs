@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
+    [Header("Player stats")]
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private float range = 5;
     [SerializeField] private long damage;   
@@ -9,8 +10,22 @@ public class Player : MonoBehaviour
     [SerializeField] private long currentHealth;
     [SerializeField] private float fireRate;
     
+    private int _level = 1;
+    
+    public static Player Instance { get; private set; }
     private float _nextFireTime;
     private GameObject _target;
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        } 
+        Instance = this;
+    }
+    
     void Update()
     {
         _target = EnemySpawner.Instance.GetClosestEnemy(this.transform.position);
@@ -47,4 +62,9 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
     }
+
+    public void IncreaseLevel()
+    {
+        _level++;
+    } 
 }
