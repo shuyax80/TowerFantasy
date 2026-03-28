@@ -106,4 +106,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   health: 10
   scoreValue: 10
+  damage: 10
   explosion: {fileID: 8625666049752253571, guid: 5b2a17557ea3b42eda04d5f0be874247, type: 3}

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UiManager.Instance.UpdateBar(_playerXp, _xpForLevel); 
+        UiManager.Instance.UpdateXpBar(_playerXp, _xpForLevel); 
     }
 
     private int GetXpForLevel(int level)
@@ -44,7 +44,16 @@ public class GameManager : MonoBehaviour
             _xpForLevel = GetXpForLevel(_playerLevel);
             Player.Instance.IncreaseLevel();
             UiManager.Instance.SetLevel(_playerLevel);
+            if (_playerLevel % 2 == 0)
+            {
+                EnemySpawner.Instance.UpdateSpawnRate();
+            }
+
+            if (_playerLevel % 5 == 0)
+            {
+                EnemySpawner.Instance.UpdateMultiplier();
+            }
         }
-        UiManager.Instance.UpdateBar(_playerXp, _xpForLevel); 
+        UiManager.Instance.UpdateXpBar(_playerXp, _xpForLevel); 
     }
 }

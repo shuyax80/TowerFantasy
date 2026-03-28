@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
 {
     private List<GameObject> _spawnPoints;
     private List<GameObject> _enemies;
-    
+    private int _multiplier = 1;
     [SerializeField] private float spawnRate;
     [SerializeField] private GameObject meteorite;
     
@@ -39,7 +40,13 @@ public class EnemySpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(spawnRate);
             var selectedSpawn = _spawnPoints[Random.Range(0, _spawnPoints.Count)].transform;
-            _enemies.Add(Instantiate(meteorite, selectedSpawn.position, Quaternion.identity));
+            var newMeteorite = Instantiate(meteorite, selectedSpawn.position, Quaternion.identity);
+            if (newMeteorite.TryGetComponent<Enemy>(out var enemyScript))
+            {
+                enemyScript.Init(_multiplier);
+                _enemies.Add(newMeteorite);
+            }
+            //_enemies.Add(Instantiate(meteorite, selectedSpawn.position, Quaternion.identity));
         } 
     }
     
@@ -64,5 +71,15 @@ public class EnemySpawner : MonoBehaviour
         }
 
         return closest;
+    }
+
+    public void UpdateSpawnRate()
+    {
+        spawnRate -= 0.02f;
+    }
+
+    public void UpdateMultiplier()
+    {
+        _multiplier++;
     }
 }

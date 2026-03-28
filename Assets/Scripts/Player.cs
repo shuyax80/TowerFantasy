@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
             script.GetDamage(damage);
         }
     }
+    
     private void RotateToTarget(Vector3 targetPos)
     {
         Vector3 direction = targetPos - transform.position;
@@ -78,7 +79,13 @@ public class Player : MonoBehaviour
     public void IncreaseLevel()
     {
         _level++;
+        range += 0.1f;
+        damage += 2;
+        maxHealth += 10;
+        currentHealth += 10;
+        fireRate -= 0.01f;
     } 
+    
     public void DrawRangeCircle()
     {
         var realRange = range;
@@ -97,5 +104,11 @@ public class Player : MonoBehaviour
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
             angle += (360f / segments);
         }
+    }
+
+    public void TakeDamage(long quantity)
+    {
+        currentHealth -= quantity;
+        UiManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
     }
 }
