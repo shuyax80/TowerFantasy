@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
         maxHealth += 10;
         currentHealth += 10;
         fireRate -= 0.01f;
+        ModuleManager.Instance.IncreaseUpgradePoints();
     } 
     
     public void DrawRangeCircle()
