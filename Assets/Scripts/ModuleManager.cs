@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class ModuleManager : MonoBehaviour
 {
+   [SerializeField] private List<ModuleBase> _modules = new List<ModuleBase>();
    public static ModuleManager Instance { get; set; }
    
    private int _upgradePoints = 0;
@@ -14,6 +17,8 @@ public class ModuleManager : MonoBehaviour
          return;
       }
       Instance = this;
+      var armor = GetComponent<ArmorModule>();
+      _modules.Add(armor);
    }
 
    public void IncreaseUpgradePoints()
