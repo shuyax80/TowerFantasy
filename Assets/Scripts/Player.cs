@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 public class Player : MonoBehaviour
@@ -78,6 +79,11 @@ public class Player : MonoBehaviour
 
     public void IncreaseLevel()
     {
+        if (ModuleManager.Instance.ReturnModules().Any(x => x.Id == 1 && x.IsActive && x.IsUnlocked))
+        {
+            maxHealth += 10;
+            currentHealth += 10;
+        }
         _level++;
         range += 0.1f;
         damage += 2;
@@ -107,9 +113,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void TakeDamage(long quantity)
+    public void ModifyHealth(long quantity, bool isDamage)
     {
-        currentHealth -= quantity;
+        if (isDamage)
+        {
+            var armor = ModuleManager.Instance.ReturnModules().ToList().OfType<ArmorModule>().FirstOrDefault();
+            if(!armor.IsUnityNull())
+                currentHealth -=  quantity - armor.GetDamageReduction();
+        }
+        else
+        {
+            if (currentHealth < maxHealth)
+                currentHealth += quantity;
+            else
+                currentHealth += 0;
+        }
         UiManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
     }
 }

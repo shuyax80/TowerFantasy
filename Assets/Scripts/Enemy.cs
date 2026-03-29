@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Player.Instance.TakeDamage(damage);
+            Player.Instance.ModifyHealth(damage, true);
             DestroyEnemy();
         }
         transform.Rotate(0, 0, _rotationSpeed * Time.deltaTime);

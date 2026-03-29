@@ -35,4 +35,9 @@ public class ModuleManager : MonoBehaviour
    {
       _upgradePoints--;
    }
+
+   public List<ModuleBase> ReturnModules()
+   {
+      return _modules;
+   }
 }

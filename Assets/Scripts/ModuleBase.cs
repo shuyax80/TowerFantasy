@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class ModuleBase : MonoBehaviour
 {
-   protected bool IsUnlocked { get; set; } = false;
-   protected bool IsActive { get; set; } = false;
+   public int Id { get; set; } = 0;
+   public bool IsUnlocked { get; set; } = false;
+   public bool IsActive { get; set; } = false;
    public int[] Upgrades { get; set; } = new int[8];
 
    public void Unlock()

@@ -5852,7 +5852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aed37aa559549ae9b492e83deef3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  spawnRate: 4
+  spawnRate: 1.45
   meteorite: {fileID: 5686717031766020582, guid: e7b6444147c124d3889a9d762b4f71b9, type: 3}
 --- !u!114 &644944447
 MonoBehaviour:
@@ -11507,6 +11507,8 @@ GameObject:
   - component: {fileID: 1948665888}
   - component: {fileID: 1948665887}
   - component: {fileID: 1948665889}
+  - component: {fileID: 1948665891}
+  - component: {fileID: 1948665890}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -11610,6 +11612,34 @@ MonoBehaviour:
   fireRate: 2
   segments: 50
   lineRenderer: {fileID: 1856081025}
+--- !u!114 &1948665890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948665886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaabe50af05f948428e63940db3cf59c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmorModule
+  regenTickTimer: 5
+  regenAmount: 1
+  damageReductionAmount: 5
+--- !u!114 &1948665891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948665886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b812f78dfc7416a92314390c7e0ca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModuleManager
+  _modules: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
