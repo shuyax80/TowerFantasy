@@ -1,4 +1,4 @@
-using System;
+
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,9 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private long currentHealth;
     [SerializeField] private float fireRate;
     
-    [Header("Range circle setting")]
-    [SerializeField] private int segments = 50; 
-    [SerializeField]private LineRenderer lineRenderer;
+    
     private int _level = 1;
     
     public static Player Instance { get; private set; }
@@ -27,15 +25,8 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
             return;
-        } 
+        }
         Instance = this;
-       
-        lineRenderer.useWorldSpace = false; 
-    }
-
-    private void Start()
-    {
-        DrawRangeCircle();
     }
 
     void Update()
@@ -51,7 +42,6 @@ public class Player : MonoBehaviour
                 _nextFireTime = Time.time + fireRate;
             }
         }
-        DrawRangeCircle();
     }
 
     private void Shoot()
@@ -93,32 +83,14 @@ public class Player : MonoBehaviour
         ModuleManager.Instance.IncreaseUpgradePoints();
     } 
     
-    public void DrawRangeCircle()
-    {
-        var realRange = range;
-        var parentScale = transform.lossyScale.x;
-        var localRadius = realRange / parentScale;
-
-        lineRenderer.positionCount = segments + 1;
-        lineRenderer.useWorldSpace = false; 
-
-        var angle = 0f;
-        for (var i = 0; i < (segments + 1); i++)
-        {
-            var x = Mathf.Sin(Mathf.Deg2Rad * angle) * localRadius;
-            var y = Mathf.Cos(Mathf.Deg2Rad * angle) * localRadius;
-
-            lineRenderer.SetPosition(i, new Vector3(x, y, 0));
-            angle += (360f / segments);
-        }
-    }
+  
 
     public void ModifyHealth(long quantity, bool isDamage)
     {
         if (isDamage)
         {
             var armor = ModuleManager.Instance.ReturnModules().ToList().OfType<ArmorModule>().FirstOrDefault();
-            if(!armor.IsUnityNull())
+            if(armor != null)
                 currentHealth -=  quantity - armor.GetDamageReduction();
         }
         else
