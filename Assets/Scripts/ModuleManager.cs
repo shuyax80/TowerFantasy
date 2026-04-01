@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ModuleManager : MonoBehaviour
 {
-   [SerializeField] private List<ModuleBase> _modules = new List<ModuleBase>();
+   [SerializeField] private List<ModuleBase> modules = new List<ModuleBase>();
    public static ModuleManager Instance { get; set; }
    
    private int _upgradePoints = 0;
@@ -18,7 +18,9 @@ public class ModuleManager : MonoBehaviour
       }
       Instance = this;
       var armor = GetComponent<ArmorModule>();
-      _modules.Add(armor);
+      var barrier = GetComponent<BarrierModule>();
+      modules.Add(armor);
+      modules.Add(barrier);
    }
 
    public void IncreaseUpgradePoints()
@@ -38,6 +40,12 @@ public class ModuleManager : MonoBehaviour
 
    public List<ModuleBase> ReturnModules()
    {
-      return _modules;
+      return modules;
+   }
+   
+   public void DamagePlayerBarriers(long amount)
+   {
+      var barrier = modules.Find(x => x.GetType() == typeof(BarrierModule)).GetComponent<BarrierModule>();
+      barrier.AlterBarrierEnergy(amount, true);
    }
 }

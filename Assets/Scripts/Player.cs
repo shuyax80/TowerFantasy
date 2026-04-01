@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
             var distance = Vector3.Distance(transform.position, _target.transform.position);
             if (distance <= range && Time.time >= _nextFireTime)
             {
-                Shoot();
+                //Shoot();
                 _nextFireTime = Time.time + fireRate;
             }
         }
@@ -81,10 +81,8 @@ public class Player : MonoBehaviour
         currentHealth += 10;
         fireRate -= 0.01f;
         ModuleManager.Instance.IncreaseUpgradePoints();
-    } 
+    }
     
-  
-
     public void ModifyHealth(long quantity, bool isDamage)
     {
         if (isDamage)
