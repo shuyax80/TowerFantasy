@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
             var distance = Vector3.Distance(transform.position, _target.transform.position);
             if (distance <= range && Time.time >= _nextFireTime)
             {
-                //Shoot();
+                Shoot();
                 _nextFireTime = Time.time + fireRate;
             }
         }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BarrierModule : ModuleBase
@@ -7,11 +8,15 @@ public class BarrierModule : ModuleBase
    [SerializeField] private long barrierEnergy;
    [SerializeField] private long barrierMaxEnergy;
    [SerializeField] private int barrierRechargeTime;
+   [SerializeField] private int barrierRegenerationAmount;
+   [SerializeField] private int barrierRegenerationTickTimer;
+   
    
    private bool _isRecharging = false;
    private bool _enabled = false;
    private void Start()
    {
+      Upgrades[0] = 1;
       IsUnlocked = true;
       IsActive = true;
       if (IsUnlocked && IsActive)
@@ -19,6 +24,8 @@ public class BarrierModule : ModuleBase
          barrierCollider.enabled = true;
          barrierParticles.Play();
          _enabled = true;
+         if(Upgrades[0] == 1)
+            StartCoroutine(Regen());
       }
       else
       {
@@ -36,6 +43,7 @@ public class BarrierModule : ModuleBase
          {
                if (!_isRecharging)
                {
+                  StopAllCoroutines();
                   barrierCollider.enabled = false;
                   barrierParticles.Stop();
                   _enabled = false;
@@ -49,6 +57,7 @@ public class BarrierModule : ModuleBase
             barrierCollider.enabled = true;
             barrierParticles.Play();
             _enabled = true;
+            StartCoroutine(Regen());
          }
       }
   
@@ -58,7 +67,15 @@ public class BarrierModule : ModuleBase
    {
       barrierEnergy = barrierMaxEnergy;
    }
-   
+
+   IEnumerator Regen()
+   {
+      while (true)
+      {
+         yield return new WaitForSeconds(barrierRegenerationTickTimer);
+         AlterBarrierEnergy(1, false);
+      }
+   }
    
    public void AlterBarrierEnergy(long amount, bool isDamage)
    {
