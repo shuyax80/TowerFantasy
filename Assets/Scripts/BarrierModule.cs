@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BarrierModule : ModuleBase
 {
+   [SerializeField] private ParticleSystem barrierRechargeParticles;
    [SerializeField] private ParticleSystem barrierParticles;
    [SerializeField] private CircleCollider2D barrierCollider;
    [SerializeField] private long barrierEnergy;
@@ -16,7 +17,7 @@ public class BarrierModule : ModuleBase
    private bool _enabled = false;
    private void Start()
    {
-      Upgrades[0] = 1;
+      Upgrades[0] = 0;
       IsUnlocked = true;
       IsActive = true;
       if (IsUnlocked && IsActive)
@@ -24,8 +25,16 @@ public class BarrierModule : ModuleBase
          barrierCollider.enabled = true;
          barrierParticles.Play();
          _enabled = true;
-         if(Upgrades[0] == 1)
+         if (Upgrades[0] == 1)
+         {
             StartCoroutine(Regen());
+            barrierRechargeParticles.Play(); 
+         }
+         else
+         {
+            
+            barrierRechargeParticles.Stop(); 
+         }
       }
       else
       {
@@ -49,6 +58,8 @@ public class BarrierModule : ModuleBase
                   _enabled = false;
                   _isRecharging = true;
                   Invoke("RechargeBarrier", barrierRechargeTime);
+                  if(Upgrades[0] == 1)
+                     barrierRechargeParticles.Stop();
                }
          }
       
@@ -57,7 +68,11 @@ public class BarrierModule : ModuleBase
             barrierCollider.enabled = true;
             barrierParticles.Play();
             _enabled = true;
-            StartCoroutine(Regen());
+            if (Upgrades[0] == 1)
+            {
+               StartCoroutine(Regen());
+               barrierRechargeParticles.Play();
+            }
          }
       }
   
