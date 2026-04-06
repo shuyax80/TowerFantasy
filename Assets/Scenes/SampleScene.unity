@@ -5852,7 +5852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aed37aa559549ae9b492e83deef3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  spawnRate: 1.45
+  spawnRate: 5
   meteorite: {fileID: 5686717031766020582, guid: e7b6444147c124d3889a9d762b4f71b9, type: 3}
 --- !u!114 &644944447
 MonoBehaviour:
@@ -16498,8 +16498,8 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
-  playOnAwake: 1
+  prewarm: 0
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -21370,6 +21370,7 @@ MonoBehaviour:
   barrierRechargeTime: 60
   barrierRegenerationAmount: 1
   barrierRegenerationTickTimer: 1
+  barrierDamage: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

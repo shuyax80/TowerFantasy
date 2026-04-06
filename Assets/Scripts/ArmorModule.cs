@@ -10,10 +10,10 @@ public class ArmorModule : ModuleBase
     private void Awake()
     {
         Id = 1;
-        IsUnlocked = true;
-        IsActive = true;
-        Upgrades[0] = 1;
-        Upgrades[1] = 1;
+        IsUnlocked = false;
+        IsActive = false;
+        Upgrades[0] = 0;
+        Upgrades[1] = 0;
     }
 
     private void Start()

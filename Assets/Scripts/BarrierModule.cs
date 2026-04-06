@@ -17,10 +17,10 @@ public class BarrierModule : ModuleBase
    private bool _enabled = false;
    private void Start()
    {
-      Upgrades[0] = 1;
-      Upgrades[1] = 1;
-      IsUnlocked = true;
-      IsActive = true;
+      Upgrades[0] = 0;
+      Upgrades[1] = 0;
+      IsUnlocked = false;
+      IsActive = false;
       if (IsUnlocked && IsActive)
       {
          barrierCollider.enabled = true;
