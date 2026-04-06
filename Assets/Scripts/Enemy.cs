@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
                 _isBouncing = true;
                 Vector2 directionToSpawn = (_spawnPosition - transform.position).normalized;
                 transform.position += (Vector3)directionToSpawn * 0.2f; 
-                ModuleManager.Instance.DamagePlayerBarriers(damage);
+                GetDamage(ModuleManager.Instance.DamagePlayerBarriers(damage));
             }
         }
     }

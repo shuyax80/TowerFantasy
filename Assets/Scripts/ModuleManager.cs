@@ -43,9 +43,10 @@ public class ModuleManager : MonoBehaviour
       return modules;
    }
    
-   public void DamagePlayerBarriers(long amount)
+   public long DamagePlayerBarriers(long amount)
    {
       var barrier = modules.Find(x => x.GetType() == typeof(BarrierModule)).GetComponent<BarrierModule>();
-      barrier.AlterBarrierEnergy(amount, true);
+      return barrier.AlterBarrierEnergy(amount, true);
+      
    }
 }

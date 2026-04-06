@@ -11,13 +11,14 @@ public class BarrierModule : ModuleBase
    [SerializeField] private int barrierRechargeTime;
    [SerializeField] private int barrierRegenerationAmount;
    [SerializeField] private int barrierRegenerationTickTimer;
-   
+   [SerializeField] private long barrierDamage;
    
    private bool _isRecharging = false;
    private bool _enabled = false;
    private void Start()
    {
-      Upgrades[0] = 0;
+      Upgrades[0] = 1;
+      Upgrades[1] = 1;
       IsUnlocked = true;
       IsActive = true;
       if (IsUnlocked && IsActive)
@@ -92,7 +93,7 @@ public class BarrierModule : ModuleBase
       }
    }
    
-   public void AlterBarrierEnergy(long amount, bool isDamage)
+   public long AlterBarrierEnergy(long amount, bool isDamage)
    {
       if (isDamage)
       {
@@ -110,5 +111,7 @@ public class BarrierModule : ModuleBase
       {
          barrierEnergy = 0;
       }
+      var hasUpgrade = Upgrades[1] == 1;
+      return hasUpgrade ? barrierDamage : 0;
    }
 }
