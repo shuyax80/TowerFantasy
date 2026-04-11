@@ -9,8 +9,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private long damage;
     [SerializeField] private GameObject explosion;
     [SerializeField] private float bounceForce = 3f;
+    [SerializeField] private float speed;
     
-    private float _speed;
     private float _stopDistance;
     private float _rotationSpeed;
     private Transform _playerTransform;
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
     {
         var randomDirection = Random.Range(0, 100);
         _spawnPosition = transform.position;    
-        _speed = Random.Range(0.3f, 1.0f);
+        speed = Random.Range(0.3f, 1.0f);
         _stopDistance = 0.5f;
         _rotationSpeed = randomDirection < 50 ? Random.Range(70f, 200f) : Random.Range(-200f, -70f);
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
             transform.position = Vector2.MoveTowards(
                 transform.position, 
                 _spawnPosition, 
-                (_speed * bounceForce) * Time.deltaTime
+                (speed * bounceForce) * Time.deltaTime
             );
 
             if (Vector2.Distance(transform.position, _spawnPosition) < 0.1f)
@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour
             transform.position = Vector2.MoveTowards(
                 transform.position, 
                 _playerTransform.position, 
-                _speed * Time.deltaTime
+                speed * Time.deltaTime
             );
         }
         else
@@ -103,5 +103,10 @@ public class Enemy : MonoBehaviour
                 GetDamage(ModuleManager.Instance.DamagePlayerBarriers(damage));
             }
         }
+    }
+
+    public void AlterSpeed(float speedModifier, bool isDivision)
+    {
+        speed = isDivision ? speed / speedModifier : speed * speedModifier;
     }
 }

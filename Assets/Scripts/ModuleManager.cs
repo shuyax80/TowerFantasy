@@ -19,8 +19,10 @@ public class ModuleManager : MonoBehaviour
       Instance = this;
       var armor = GetComponent<ArmorModule>();
       var barrier = GetComponent<BarrierModule>();
+      var distortionField = GetComponent<DistortionFieldModule>();
       modules.Add(armor);
       modules.Add(barrier);
+      modules.Add(distortionField);
    }
 
    public void IncreaseUpgradePoints()
