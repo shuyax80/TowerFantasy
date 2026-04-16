@@ -20,9 +20,11 @@ public class ModuleManager : MonoBehaviour
       var armor = GetComponent<ArmorModule>();
       var barrier = GetComponent<BarrierModule>();
       var distortionField = GetComponent<DistortionFieldModule>();
+      var cannon = GetComponent<CannonModule>();
       modules.Add(armor);
       modules.Add(barrier);
       modules.Add(distortionField);
+      modules.Add(cannon);
    }
 
    public void IncreaseUpgradePoints()
@@ -50,5 +52,10 @@ public class ModuleManager : MonoBehaviour
       var barrier = modules.Find(x => x.GetType() == typeof(BarrierModule)).GetComponent<BarrierModule>();
       return barrier.AlterBarrierEnergy(amount, true);
       
+   }
+
+   public void FireCannonHit()
+   {
+      var cannon = modules.Find(x => x.GetType() == typeof(CannonModule)).GetComponent<CannonModule>();
    }
 }

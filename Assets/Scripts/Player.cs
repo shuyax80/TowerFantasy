@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
+        
         muzzleFlash.Play();
         if (_target.TryGetComponent<Enemy>(out var script))
         {
