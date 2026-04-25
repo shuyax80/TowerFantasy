@@ -48,10 +48,8 @@ public class Player : MonoBehaviour
     {
         
         muzzleFlash.Play();
-        if (_target.TryGetComponent<Enemy>(out var script))
-        {
-            script.GetDamage(damage);
-        }
+        ModuleManager.Instance.FireCannonHit(_target, damage);
+       
     }
     
     private void RotateToTarget(Vector3 targetPos)

@@ -8,6 +8,10 @@ public class ModuleManager : MonoBehaviour
    public static ModuleManager Instance { get; set; }
    
    private int _upgradePoints = 0;
+   private CannonModule _cannon;
+   private BarrierModule _barrier;
+   private ArmorModule _armor;
+   private DistortionFieldModule _distortionField;
    
    private void Awake()
    {
@@ -17,14 +21,14 @@ public class ModuleManager : MonoBehaviour
          return;
       }
       Instance = this;
-      var armor = GetComponent<ArmorModule>();
-      var barrier = GetComponent<BarrierModule>();
-      var distortionField = GetComponent<DistortionFieldModule>();
-      var cannon = GetComponent<CannonModule>();
-      modules.Add(armor);
-      modules.Add(barrier);
-      modules.Add(distortionField);
-      modules.Add(cannon);
+      _armor = GetComponent<ArmorModule>();
+      _barrier = GetComponent<BarrierModule>();
+      _distortionField = GetComponent<DistortionFieldModule>();
+      _cannon = GetComponent<CannonModule>();
+      modules.Add(_armor);
+      modules.Add(_barrier);
+      modules.Add(_distortionField);
+      modules.Add(_cannon);
    }
 
    public void IncreaseUpgradePoints()
@@ -49,13 +53,14 @@ public class ModuleManager : MonoBehaviour
    
    public long DamagePlayerBarriers(long amount)
    {
-      var barrier = modules.Find(x => x.GetType() == typeof(BarrierModule)).GetComponent<BarrierModule>();
-      return barrier.AlterBarrierEnergy(amount, true);
-      
+      return _barrier.AlterBarrierEnergy(amount, true);
    }
 
-   public void FireCannonHit()
+   public void FireCannonHit(GameObject target, long damage)
    {
-      var cannon = modules.Find(x => x.GetType() == typeof(CannonModule)).GetComponent<CannonModule>();
+      if (target.TryGetComponent<Enemy>(out var script))
+      {
+         _cannon.Shoot(script, damage);
+      }
    }
 }

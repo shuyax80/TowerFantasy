@@ -6,6 +6,6 @@ public class CannonModule : ModuleBase
 
     public void Shoot(Enemy target, long damage)
     {
-        
+       target.GetDamage(damage);
     }
 }
