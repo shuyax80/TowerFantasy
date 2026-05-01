@@ -14,7 +14,7 @@ public class CannonModule : ModuleBase
 
         if (bulletGameObject.TryGetComponent(out Bullet bullet))
         {
-            bullet.Setup(targetTransform, damage, bulletSpeed);
+            bullet.Setup(targetTransform, damage, bulletSpeed, Upgrades);
         }
     }
 }

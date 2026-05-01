@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5365053555746325252}
   - component: {fileID: -4536932418413922452}
   - component: {fileID: 1232159798806352803}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Meteorite_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,6 +111,7 @@ MonoBehaviour:
   damage: 10
   explosion: {fileID: 8625666049752253571, guid: 5b2a17557ea3b42eda04d5f0be874247, type: 3}
   bounceForce: 3
+  speed: 0
 --- !u!50 &-4536932418413922452
 Rigidbody2D:
   serializedVersion: 5
