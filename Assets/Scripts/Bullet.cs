@@ -5,7 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private ParticleSystem explosionEffect;
-    
+    [SerializeField] private float explosionRadius = 1f;
+    [SerializeField] private long explosionDamage = 5;
     private const float LifeTimeSeconds = 5f;
     private const float HitDistance = 0.2f;
 
@@ -13,7 +14,7 @@ public class Bullet : MonoBehaviour
     private long _damage;
     private float _speed;
     private bool _isInitialized;
-    private float _explosionRadius = 1f;
+    
     private bool _explosionEnabled = false;
 
     public void Setup(Transform target, long damage, float speed, int[] upgradesToApply)
@@ -87,7 +88,7 @@ public class Bullet : MonoBehaviour
     
         if (speed > 0) 
         {
-            main.startLifetime = _explosionRadius / speed;
+            main.startLifetime = explosionRadius / speed;
         }
         else 
         {
@@ -101,13 +102,13 @@ public class Bullet : MonoBehaviour
         filter.SetLayerMask(LayerMask.GetMask("Enemy"));
 
         List<Collider2D> results = new List<Collider2D>();
-        Physics2D.OverlapCircle(transform.position, _explosionRadius, filter, results);
+        Physics2D.OverlapCircle(transform.position, explosionRadius, filter, results);
 
         foreach (var hit in results)
         {
             if (hit.TryGetComponent(out Enemy nearbyEnemy))
             {
-                nearbyEnemy.GetDamage(_damage);
+                nearbyEnemy.GetDamage(explosionDamage);
             }
         }
     }

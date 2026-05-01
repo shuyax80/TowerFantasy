@@ -9,6 +9,7 @@ public class CannonModule : ModuleBase
 
     public void Shoot(Enemy target, long damage)
     {
+        Upgrades[0] = 1;
         GameObject bulletGameObject = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         Transform targetTransform = target.transform;
 
