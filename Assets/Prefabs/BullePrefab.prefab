@@ -86,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   speed: 5
   lifeTime: 3
+  bulletExplosionPrefab: {fileID: 2091607124823867790, guid: 9735aad0231b941fa8903be6f4525266, type: 3}
 --- !u!50 &4618073402963724964
 Rigidbody2D:
   serializedVersion: 5

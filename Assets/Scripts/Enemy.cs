@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -74,7 +73,22 @@ public class Enemy : MonoBehaviour
     private void DestroyEnemy()
     {
         Destroy(this.gameObject);
-        if(!explosion.IsUnityNull())
-            Instantiate(explosion, transform.position, Quaternion.identity);
+        SpawnExplosion();
+    }
+
+    private void SpawnExplosion()
+    {
+        if (explosion == null)
+        {
+            return;
+        }
+
+        var explosionInstance = Instantiate(explosion);
+        explosionInstance.transform.position = transform.position;
+
+        foreach (var particleSystem in explosionInstance.GetComponentsInChildren<ParticleSystem>())
+        {
+            particleSystem.Play();
+        }
     }
 }

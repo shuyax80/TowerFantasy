@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed = 12f;
     [SerializeField] private float lifeTime = 2f;
-
+    [SerializeField] private GameObject bulletExplosionPrefab;
     private long _damage;
     private Rigidbody2D _rigidbody;
 
@@ -37,8 +37,24 @@ public class Bullet : MonoBehaviour
             return;
         }
 
+        SpawnExplosion();
         enemy.GetDamage(_damage);
-        Debug.Log($"{gameObject.name} bullet hit {_damage}");
         Destroy(gameObject);
+    }
+
+    private void SpawnExplosion()
+    {
+        if (bulletExplosionPrefab == null)
+        {
+            return;
+        }
+
+        var explosion = Instantiate(bulletExplosionPrefab);
+        explosion.transform.position = transform.position;
+
+        foreach (var particleSystem in explosion.GetComponentsInChildren<ParticleSystem>())
+        {
+            particleSystem.Play();
+        }
     }
 }

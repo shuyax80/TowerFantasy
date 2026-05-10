@@ -1390,6 +1390,7 @@ GameObject:
   - component: {fileID: 1594238073}
   - component: {fileID: 1594238075}
   - component: {fileID: 1594238074}
+  - component: {fileID: 1594238076}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -1485,6 +1486,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 8.1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1594238076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594238072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ec1d083db744e7a97ce440589a365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Base
 --- !u!1 &1730647815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,6 +1857,8 @@ GameObject:
   - component: {fileID: 1948665888}
   - component: {fileID: 1948665887}
   - component: {fileID: 1948665889}
+  - component: {fileID: 1948665891}
+  - component: {fileID: 1948665892}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1900,12 +1915,12 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 5012085101875896931, guid: 8d5fd17f1776a41c09118bf55cd62cbf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 46a2195081c174de09ec0ecf78ad0e29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1942,7 +1957,7 @@ MonoBehaviour:
   gameplayCamera: {fileID: 0}
   screenPadding: {x: 0, y: 0}
   muzzleFlash: {fileID: 0}
-  damage: 10
+  damage: 5
   maxHealth: 100
   currentHealth: 100
   fireRate: 2
@@ -1951,6 +1966,103 @@ MonoBehaviour:
   fireRateIncreasedBy: -0.01
   bulletPrefab: {fileID: 1933214658690846520, guid: d056cd5e98f9b486795d62528e5aa8e5, type: 3}
   bulletSpawnPoint: {fileID: 429423318}
+--- !u!50 &1948665891
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948665886}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!68 &1948665892
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948665886}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 1.9959837, y: 0.7432244}
+  - {x: 3.7064433, y: -0.54798865}
+  - {x: 3.696836, y: -1.1821979}
+  - {x: 2.429862, y: -0.94077826}
+  - {x: 1.9341215, y: -1.8490125}
+  - {x: 1.142258, y: -1.9987023}
+  - {x: 0.8435211, y: -0.9312626}
+  - {x: 0.294621, y: -2.6222198}
+  - {x: 0.07472479, y: -2.8696053}
+  - {x: -0.24326092, y: -2.6995018}
+  - {x: -0.8056675, y: -0.9404708}
+  - {x: -1.0928771, y: -1.9382763}
+  - {x: -1.8055593, y: -1.9291264}
+  - {x: -2.4092002, y: -1.2221358}
+  - {x: -2.403777, y: -0.8445735}
+  - {x: -3.683805, y: -1.1767993}
+  - {x: -3.7004669, y: -0.68644106}
+  - {x: -2.1479673, y: 0.66295767}
+  - {x: -1.400985, y: 2.2877643}
+  - {x: -1.1492358, y: 2.324444}
+  - {x: -0.94972783, y: 1.4344008}
+  - {x: -0.17619318, y: 4.4111943}
+  - {x: 0.008771593, y: 4.570045}
+  - {x: 0.94496715, y: 1.3961401}
+  - {x: 1.1532304, y: 2.3117387}
+  - {x: 1.5813174, y: 2.1075568}
+  - {x: 1.9004583, y: 0.9169688}
+  - {x: 3.6932657, y: -0.48258018}
+  - {x: 3.7916834, y: -0.74322486}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
