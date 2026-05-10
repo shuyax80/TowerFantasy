@@ -18,10 +18,10 @@ public class BackgroundManager : MonoBehaviour
     public int segmentsAhead = 4;
     public int segmentsBehind = 2;
 
-    private readonly List<GameObject> activeSegments = new();
+    private readonly List<GameObject> _activeSegments = new();
 
-    private float nextSpawnY = 0f;
-    private bool initialSegmentsSpawned = false;
+    private float _nextSpawnY = 0f;
+    private bool _initialSegmentsSpawned = false;
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class BackgroundManager : MonoBehaviour
     {
         float cameraY = mainCamera.transform.position.y;
 
-        while (cameraY + segmentsAhead * segmentHeight > nextSpawnY)
+        while (cameraY + segmentsAhead * segmentHeight > _nextSpawnY)
         {
             SpawnRandomSegment();
         }
@@ -47,13 +47,13 @@ public class BackgroundManager : MonoBehaviour
 
     void SpawnInitialSegments()
     {
-        if (initialSegmentsSpawned)
+        if (_initialSegmentsSpawned)
             return;
 
         SpawnSpecificSegment(firstSegment);
         SpawnSpecificSegment(secondSegment);
 
-        initialSegmentsSpawned = true;
+        _initialSegmentsSpawned = true;
     }
 
     void SpawnRandomSegment()
@@ -66,26 +66,26 @@ public class BackgroundManager : MonoBehaviour
 
     void SpawnSpecificSegment(GameObject prefab)
     {
-        Vector3 position = new Vector3(0f, nextSpawnY, 0f);
+        Vector3 position = new Vector3(0f, _nextSpawnY, 0f);
 
         GameObject segment =
             Instantiate(prefab, position, Quaternion.identity, transform);
 
-        activeSegments.Add(segment);
+        _activeSegments.Add(segment);
 
-        nextSpawnY += segmentHeight;
+        _nextSpawnY += segmentHeight;
     }
 
     void CleanupOldSegments(float cameraY)
     {
-        float minY = cameraY - segmentsBehind * segmentHeight;
+        var minY = cameraY - segmentsBehind * segmentHeight;
 
-        for (int i = activeSegments.Count - 1; i >= 0; i--)
+        for (var i = _activeSegments.Count - 1; i >= 0; i--)
         {
-            if (activeSegments[i].transform.position.y + segmentHeight < minY)
+            if (_activeSegments[i].transform.position.y + segmentHeight < minY)
             {
-                Destroy(activeSegments[i]);
-                activeSegments.RemoveAt(i);
+                Destroy(_activeSegments[i]);
+                _activeSegments.RemoveAt(i);
             }
         }
     }

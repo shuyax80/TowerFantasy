@@ -13,6 +13,17 @@ public class Enemy : MonoBehaviour
     private float _rotationSpeed;
     private Transform _playerTransform;
 
+    private void Awake()
+    {
+        if (GetComponent<Collider2D>() != null)
+        {
+            return;
+        }
+
+        var enemyCollider = gameObject.AddComponent<CircleCollider2D>();
+        enemyCollider.isTrigger = false;
+    }
+
     public void Init(int multiplier)
     {
         health *= multiplier;

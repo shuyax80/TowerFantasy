@@ -20,7 +20,15 @@ public class Player : MonoBehaviour
     [SerializeField] private long damageIncreasedBy = 2;
     [SerializeField] private long healthIncreasedBy = 20;
     [SerializeField] private float fireRateIncreasedBy = 0.01f;
+    
+    [Header("Bullet")]
+    [SerializeField] private GameObject bulletPrefab;   
+    [SerializeField] private Transform bulletSpawnPoint;
+    
+    
     private int _level = 1;
+    
+    
     
     public static Player Instance { get; private set; }
     private float _nextFireTime;
@@ -54,6 +62,7 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         Move();
+        HandleFire();
     }
 
     private void Move()
@@ -136,6 +145,42 @@ public class Player : MonoBehaviour
         return Vector2.ClampMagnitude(movementInput, 1f);
     }
 
+    private void HandleFire()
+    {
+        if (!IsFireHeld() || Time.time < _nextFireTime)
+        {
+            return;
+        }
+
+        Shoot();
+        _nextFireTime = Time.time + Mathf.Max(0.01f, fireRate);
+    }
+
+    private static bool IsFireHeld()
+    {
+        if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        {
+            return true;
+        }
+
+        if (Keyboard.current != null &&
+            (Keyboard.current.leftCtrlKey.isPressed ||
+             Keyboard.current.rightCtrlKey.isPressed ||
+             Keyboard.current.spaceKey.isPressed))
+        {
+            return true;
+        }
+
+        if (Gamepad.current != null &&
+            (Gamepad.current.buttonSouth.isPressed ||
+             Gamepad.current.rightTrigger.ReadValue() > 0.5f))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     private void ClampPositionToScreen()
     {
         if (gameplayCamera.IsUnityNull())
@@ -172,7 +217,22 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        muzzleFlash.Play();
+        if (!muzzleFlash.IsUnityNull())
+        {
+            muzzleFlash.Play();
+        }
+
+        if (bulletPrefab.IsUnityNull())
+        {
+            return;
+        }
+
+        var spawnTransform = bulletSpawnPoint.IsUnityNull() ? transform : bulletSpawnPoint;
+        var bullet = Instantiate(bulletPrefab, spawnTransform.position, spawnTransform.rotation);
+        if (bullet.TryGetComponent<Bullet>(out var bulletScript))
+        {
+            bulletScript.Init(damage);
+        }
     }
 
     public void IncreaseLevel()
