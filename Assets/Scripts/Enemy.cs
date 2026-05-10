@@ -49,17 +49,26 @@ public class Enemy : MonoBehaviour
         if (other.TryGetComponent<Player>(out var player))
         {
             player.TakeDamage(damage);
+            DestroyEnemy();
         }
-        
-        DestroyEnemy();
+
+        if (other.TryGetComponent<Base>(out var baseScript))
+        {
+            DestroyEnemy();
+        }
     }
 
     public void GetDamage(long amount)
     {
+        
         health -= amount;
+        Debug.Log($"{gameObject.name} bullet hit {amount} current health {health}");
         if(health <= 0)
-          DestroyEnemy();
-        GameManager.Instance.AddXp(scoreValue);
+        {
+            DestroyEnemy();
+            GameManager.Instance.AddXp(scoreValue);
+        }
+        
     }
 
     private void DestroyEnemy()

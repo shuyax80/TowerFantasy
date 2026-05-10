@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
         }
 
         enemy.GetDamage(_damage);
+        Debug.Log($"{gameObject.name} bullet hit {_damage}");
         Destroy(gameObject);
     }
 }
