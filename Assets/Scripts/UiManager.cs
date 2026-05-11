@@ -9,6 +9,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Image xpBar;
     [SerializeField] private Image healthBar;
+    [SerializeField] private Image energyBar;
     private long _level = 1;
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class UiManager : MonoBehaviour
     public void SetLevel(long level)
     {
         _level = level;
-        levelText.text = $"Level: {_level}";
+        levelText.text = $"LEVEL: {_level}";
     }
 
     public void UpdateXpBar(long playerXp, long xpForLevel)
@@ -31,5 +32,10 @@ public class UiManager : MonoBehaviour
     public void UpdateHealthBar(long playerHealth, long maxHealth)
     {
         healthBar.fillAmount = (float) playerHealth / maxHealth;
+    }
+
+    public void UpdateEnergyBar(long playerEnergy, long maxEnergy)
+    {
+        energyBar.fillAmount = (float) playerEnergy / maxEnergy;
     }
 }

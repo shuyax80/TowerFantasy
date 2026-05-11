@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,11 @@ public class Player : MonoBehaviour
     [SerializeField] private long maxHealth;
     [SerializeField] private long currentHealth;
     [SerializeField] private float fireRate;
+    [SerializeField] private long currentEnergy;
+    [SerializeField] private long maxEnergy;
+    [SerializeField] private long energyConsumptionMovement;
+    [SerializeField] private long energyConsumptionShoot;
+    [SerializeField] private long energyConsumptionTick;
     
     [Header("Player stats increase")]
     [SerializeField] private long damageIncreasedBy = 2;
@@ -57,6 +63,7 @@ public class Player : MonoBehaviour
 
         ClampPositionToScreen();
         UpdateCameraPositionSnapshot();
+        StartCoroutine(ConsumeEnergy());
     }
 
     private void LateUpdate()
@@ -196,7 +203,7 @@ public class Player : MonoBehaviour
 
         var minX = cameraPosition.x - cameraWidth + playerExtents.x + screenPadding.x;
         var maxX = cameraPosition.x + cameraWidth - playerExtents.x - screenPadding.x;
-        var minY = cameraPosition.y - cameraHeight + playerExtents.y + screenPadding.y;
+        var minY = cameraPosition.y - cameraHeight + playerExtents.y + screenPadding.y +1;
         var maxY = cameraPosition.y + cameraHeight - playerExtents.y - screenPadding.y;
 
         position.x = Mathf.Clamp(position.x, minX, maxX);
@@ -232,6 +239,8 @@ public class Player : MonoBehaviour
         if (bullet.TryGetComponent<Bullet>(out var bulletScript))
         {
             bulletScript.Init(damage);
+            currentEnergy -= energyConsumptionShoot;
+            UiManager.Instance.UpdateEnergyBar(currentEnergy, maxEnergy);
         }
     }
 
@@ -243,12 +252,20 @@ public class Player : MonoBehaviour
         currentHealth += healthIncreasedBy;
         fireRate -= fireRateIncreasedBy;
     } 
-    
-    
 
     public void TakeDamage(long quantity)
     {
         currentHealth -= quantity;
         UiManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+    }
+
+    private IEnumerator ConsumeEnergy()
+    {
+        while (true)
+        {
+            currentEnergy -= energyConsumptionMovement;
+            UiManager.Instance.UpdateEnergyBar(currentEnergy, maxEnergy);
+            yield return new WaitForSeconds(energyConsumptionTick);
+        }
     }
 }
