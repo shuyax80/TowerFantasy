@@ -3074,11 +3074,11 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   fireRate: 2
-  currentEnergy: 0
+  currentEnergy: 100
   maxEnergy: 100
   energyConsumptionMovement: 1
-  energyConsumptionShoot: 2
-  energyConsumptionTick: 1
+  energyConsumptionShoot: 1
+  energyConsumptionTick: 5
   damageIncreasedBy: 2
   healthIncreasedBy: 20
   fireRateIncreasedBy: -0.01

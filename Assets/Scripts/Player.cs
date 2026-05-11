@@ -22,11 +22,6 @@ public class Player : MonoBehaviour
     [SerializeField] private long energyConsumptionShoot;
     [SerializeField] private long energyConsumptionTick;
     
-    [Header("Player stats increase")]
-    [SerializeField] private long damageIncreasedBy = 2;
-    [SerializeField] private long healthIncreasedBy = 20;
-    [SerializeField] private float fireRateIncreasedBy = 0.01f;
-    
     [Header("Bullet")]
     [SerializeField] private GameObject bulletPrefab;   
     [SerializeField] private Transform bulletSpawnPoint;
@@ -247,10 +242,7 @@ public class Player : MonoBehaviour
     public void IncreaseLevel()
     {
         _level++;
-        damage += damageIncreasedBy;
-        maxHealth += healthIncreasedBy;
-        currentHealth += healthIncreasedBy;
-        fireRate -= fireRateIncreasedBy;
+        
     } 
 
     public void TakeDamage(long quantity)
