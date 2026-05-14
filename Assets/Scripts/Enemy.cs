@@ -61,7 +61,6 @@ public class Enemy : MonoBehaviour
     {
         
         health -= amount;
-        Debug.Log($"{gameObject.name} bullet hit {amount} current health {health}");
         if(health <= 0)
         {
             DestroyEnemy();

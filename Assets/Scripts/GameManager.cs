@@ -1,8 +1,15 @@
 using System;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ISaveable
 {
+    [Serializable]
+    private class GameManagerSaveData
+    {
+        public long playerXp;
+        public int playerLevel;
+    }
+
     [Header("XpCurveParams")]
     [SerializeField] private int baseXp = 100; 
     [SerializeField] private float multiplier = 1.2f; 
@@ -12,6 +19,7 @@ public class GameManager : MonoBehaviour
     private int _xpForLevel = 0;
     private int _playerLevel = 1;
     public static GameManager Instance { get; private set; }
+    public string SaveId => "game_manager";
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UiManager.Instance.UpdateXpBar(_playerXp, _xpForLevel); 
+        UpdateUi();
     }
 
     private int GetXpForLevel(int level)
@@ -44,16 +52,38 @@ public class GameManager : MonoBehaviour
             _xpForLevel = GetXpForLevel(_playerLevel);
             Player.Instance.IncreaseLevel();
             UiManager.Instance.SetLevel(_playerLevel);
-            if (_playerLevel % 2 == 0)
-            {
-                EnemySpawner.Instance.UpdateSpawnRate();
-            }
-
-            if (_playerLevel % 5 == 0)
-            {
-                EnemySpawner.Instance.UpdateMultiplier();
-            }
         }
-        UiManager.Instance.UpdateXpBar(_playerXp, _xpForLevel); 
+        UpdateUi();
+    }
+
+    public string Save()
+    {
+        var data = new GameManagerSaveData
+        {
+            playerXp = _playerXp,
+            playerLevel = _playerLevel
+        };
+
+        return JsonUtility.ToJson(data);
+    }
+
+    public void Load(string json)
+    {
+        var data = JsonUtility.FromJson<GameManagerSaveData>(json);
+        if (data == null)
+        {
+            return;
+        }
+
+        _playerXp = Math.Max(0, data.playerXp);
+        _playerLevel = Mathf.Max(1, data.playerLevel);
+        _xpForLevel = GetXpForLevel(_playerLevel);
+        UpdateUi();
+    }
+
+    private void UpdateUi()
+    {
+        UiManager.Instance.SetLevel(_playerLevel);
+        UiManager.Instance.UpdateXpBar(_playerXp, _xpForLevel);
     }
 }

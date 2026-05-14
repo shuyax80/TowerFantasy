@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ISaveable
 {
     [Header("Movement")]
     [SerializeField] private float movementSpeed = 2f;
@@ -12,26 +12,13 @@ public class Player : MonoBehaviour
     
     [Header("Player stats")]
     [SerializeField] private ParticleSystem muzzleFlash;
-    [SerializeField] private long damage;   
-    [SerializeField] private long maxHealth;
-    [SerializeField] private long currentHealth;
-    [SerializeField] private float fireRate;
-    [SerializeField] private long currentEnergy;
-    [SerializeField] private long maxEnergy;
-    [SerializeField] private long energyConsumptionMovement;
-    [SerializeField] private long energyConsumptionShoot;
-    [SerializeField] private long energyConsumptionTick;
+    [SerializeField] private PlayerStats stats = new();
     
     [Header("Bullet")]
     [SerializeField] private GameObject bulletPrefab;   
     [SerializeField] private Transform bulletSpawnPoint;
-    
-    
-    private int _level = 1;
-    
-    
-    
     public static Player Instance { get; private set; }
+    public string SaveId => "player";
     private float _nextFireTime;
     private GameObject _target;
     private SpriteRenderer _spriteRenderer;
@@ -58,6 +45,7 @@ public class Player : MonoBehaviour
 
         ClampPositionToScreen();
         UpdateCameraPositionSnapshot();
+        UpdateStatsUi();
         StartCoroutine(ConsumeEnergy());
     }
 
@@ -155,7 +143,7 @@ public class Player : MonoBehaviour
         }
 
         Shoot();
-        _nextFireTime = Time.time + Mathf.Max(0.01f, fireRate);
+        _nextFireTime = Time.time + Mathf.Max(0.01f, stats.FireRate);
     }
 
     private static bool IsFireHeld()
@@ -233,31 +221,64 @@ public class Player : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, spawnTransform.position, spawnTransform.rotation);
         if (bullet.TryGetComponent<Bullet>(out var bulletScript))
         {
-            bulletScript.Init(damage);
-            currentEnergy -= energyConsumptionShoot;
-            UiManager.Instance.UpdateEnergyBar(currentEnergy, maxEnergy);
+            bulletScript.Init(stats.Damage);
+            stats.ConsumeEnergy(stats.EnergyConsumptionShoot);
+            UpdateEnergyUi();
         }
     }
 
     public void IncreaseLevel()
     {
-        _level++;
-        
+        stats.IncreaseLevel();
+        SaveManager.Instance?.SaveGame();
     } 
 
     public void TakeDamage(long quantity)
     {
-        currentHealth -= quantity;
-        UiManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        stats.TakeDamage(quantity);
+        UpdateHealthUi();
+    }
+
+    public string Save()
+    {
+        return JsonUtility.ToJson(stats);
+    }
+
+    public void Load(string json)
+    {
+        var loadedStats = JsonUtility.FromJson<PlayerStats>(json);
+        if (loadedStats == null)
+        {
+            return;
+        }
+
+        stats = loadedStats;
+        UpdateStatsUi();
     }
 
     private IEnumerator ConsumeEnergy()
     {
         while (true)
         {
-            currentEnergy -= energyConsumptionMovement;
-            UiManager.Instance.UpdateEnergyBar(currentEnergy, maxEnergy);
-            yield return new WaitForSeconds(energyConsumptionTick);
+            stats.ConsumeEnergy(stats.EnergyConsumptionMovement);
+            UpdateEnergyUi();
+            yield return new WaitForSeconds(stats.EnergyConsumptionTick);
         }
+    }
+
+    private void UpdateStatsUi()
+    {
+        UpdateHealthUi();
+        UpdateEnergyUi();
+    }
+
+    private void UpdateHealthUi()
+    {
+        UiManager.Instance.UpdateHealthBar(stats.CurrentHealth, stats.MaxHealth);
+    }
+
+    private void UpdateEnergyUi()
+    {
+        UiManager.Instance.UpdateEnergyBar(stats.CurrentEnergy, stats.MaxEnergy);
     }
 }

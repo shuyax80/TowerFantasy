@@ -1184,6 +1184,7 @@ GameObject:
   - component: {fileID: 644944446}
   - component: {fileID: 644944447}
   - component: {fileID: 644944448}
+  - component: {fileID: 644944449}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -1251,6 +1252,20 @@ MonoBehaviour:
   baseXp: 100
   multiplier: 1.2
   exponent: 2.2
+--- !u!114 &644944449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644944444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7422e814a694308a1e7096853c5450e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveManager
+  saveFileName: save.json
+  loadOnStart: 1
 --- !u!1 &677920116
 GameObject:
   m_ObjectHideFlags: 0
@@ -3028,7 +3043,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 46a2195081c174de09ec0ecf78ad0e29, type: 3}
+  m_Sprite: {fileID: -4885457973240560176, guid: 50c30546b08364a6e8beed886efe070f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3070,18 +3085,20 @@ MonoBehaviour:
   gameplayCamera: {fileID: 0}
   screenPadding: {x: 0, y: 0}
   muzzleFlash: {fileID: 0}
-  damage: 5
-  maxHealth: 100
-  currentHealth: 100
-  fireRate: 2
-  currentEnergy: 100
-  maxEnergy: 100
-  energyConsumptionMovement: 1
-  energyConsumptionShoot: 1
-  energyConsumptionTick: 5
-  damageIncreasedBy: 2
-  healthIncreasedBy: 20
-  fireRateIncreasedBy: -0.01
+  stats:
+    damage: 5
+    maxHealth: 100
+    currentHealth: 100
+    fireRate: 2
+    currentEnergy: 100
+    maxEnergy: 100
+    energyConsumptionMovement: 1
+    energyConsumptionShoot: 1
+    energyConsumptionTick: 5
+    damageIncreasedBy: 2
+    healthIncreasedBy: 20
+    fireRateIncreasedBy: -0.01
+    level: 1
   bulletPrefab: {fileID: 1933214658690846520, guid: d056cd5e98f9b486795d62528e5aa8e5, type: 3}
   bulletSpawnPoint: {fileID: 429423318}
 --- !u!50 &1948665891
