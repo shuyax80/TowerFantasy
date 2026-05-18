@@ -42,10 +42,11 @@ public class Player : MonoBehaviour, ISaveable
         {
             gameplayCamera = Camera.main;
         }
-
+        
         ClampPositionToScreen();
         UpdateCameraPositionSnapshot();
         UpdateStatsUi();
+        stats.MaxHealthAndEnergy();
         StartCoroutine(ConsumeEnergy());
     }
 
@@ -222,7 +223,7 @@ public class Player : MonoBehaviour, ISaveable
         if (bullet.TryGetComponent<Bullet>(out var bulletScript))
         {
             bulletScript.Init(stats.Damage);
-            stats.ConsumeEnergy(stats.EnergyConsumptionShoot);
+            stats.ModifyCurrentEnergy(stats.EnergyConsumptionShoot);
             UpdateEnergyUi();
         }
     }
@@ -235,7 +236,7 @@ public class Player : MonoBehaviour, ISaveable
 
     public void TakeDamage(long quantity)
     {
-        stats.TakeDamage(quantity);
+        stats.ModifyCurrentHealth(quantity);
         UpdateHealthUi();
     }
 
@@ -260,7 +261,7 @@ public class Player : MonoBehaviour, ISaveable
     {
         while (true)
         {
-            stats.ConsumeEnergy(stats.EnergyConsumptionMovement);
+            stats.ModifyCurrentEnergy(stats.EnergyConsumptionMovement);
             UpdateEnergyUi();
             yield return new WaitForSeconds(stats.EnergyConsumptionTick);
         }

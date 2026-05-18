@@ -17,11 +17,6 @@ public class PlayerStats
     public float FireRateIncreasedBy => fireRateIncreasedBy;
     public int Level => level;
 
-    public PlayerStats()
-    {
-        currentHealth = MaxHealth;
-        currentEnergy = MaxEnergy;
-    }
     
     public void IncreaseLevel()
     {
@@ -29,12 +24,18 @@ public class PlayerStats
         skillPoints++;
     }
 
-    public void TakeDamage(long quantity)
+    public void MaxHealthAndEnergy()
+    {
+        currentHealth = maxHealth;
+        currentEnergy = maxEnergy;
+    }
+
+    public void ModifyCurrentHealth(long quantity)
     {
         currentHealth = ClampMin(currentHealth - quantity, 0);
     }
 
-    public void ConsumeEnergy(long quantity)
+    public void ModifyCurrentEnergy(long quantity)
     {
         currentEnergy = ClampMin(currentEnergy - quantity, 0);
     }
