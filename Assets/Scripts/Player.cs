@@ -45,8 +45,8 @@ public class Player : MonoBehaviour, ISaveable
         
         ClampPositionToScreen();
         UpdateCameraPositionSnapshot();
-        UpdateStatsUi();
         stats.MaxHealthAndEnergy();
+        UpdateStatsUi();
         StartCoroutine(ConsumeEnergy());
     }
 
@@ -254,6 +254,7 @@ public class Player : MonoBehaviour, ISaveable
         }
 
         stats = loadedStats;
+        stats.MaxHealthAndEnergy();
         UpdateStatsUi();
     }
 

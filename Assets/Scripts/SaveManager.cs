@@ -59,7 +59,6 @@ public class SaveManager : MonoBehaviour
 
         var json = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(SavePath, json);
-        Debug.Log($"Game saved to {SavePath}");
     }
 
     [ContextMenu("Load Game")]
